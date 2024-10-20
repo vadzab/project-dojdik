@@ -1,0 +1,50 @@
+{
+	"name": "project-fojdik",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbo",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
+		"format": "prettier --write \"**/*.{ts,tsx,md,mdx,css,scss}\""
+	},
+	"dependencies": {
+		"@nextui-org/react": "^2.4.8",
+		"@react-aria/ssr": "3.9.4",
+		"@react-aria/visually-hidden": "3.8.12",
+		"clsx": "2.1.1",
+		"formik": "^2.4.6",
+		"framer-motion": "~11.1.1",
+		"intl-messageformat": "^10.5.0",
+		"next": "14.2.4",
+		"next-themes": "^0.2.1",
+		"react": "18.3.1",
+		"react-dom": "18.3.1",
+		"yup": "^1.4.0"
+	},
+	"devDependencies": {
+		"@types/node": "20.5.7",
+		"@types/react": "18.3.3",
+		"@types/react-dom": "18.3.0",
+		"@typescript-eslint/eslint-plugin": "7.2.0",
+		"@typescript-eslint/parser": "7.2.0",
+		"autoprefixer": "10.4.19",
+		"eslint": "^8.57.1",
+		"eslint-config-next": "14.2.1",
+		"eslint-config-prettier": "^8.10.0",
+		"eslint-plugin-import": "^2.26.0",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"eslint-plugin-react": "^7.37.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-unused-imports": "^3.2.0",
+		"postcss": "8.4.38",
+		"prettier": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.8",
+		"tailwind-variants": "0.1.20",
+		"tailwindcss": "3.4.3",
+		"typescript": "5.0.4"
+	}
+}
