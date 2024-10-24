@@ -1,11 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { createAuthCookie } from "@/actions/auth.action";
-import { EyeSlashFilledIcon } from "@/components/icons/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "@/components/icons/EyeFilledIcon";
-import { LoginSchema } from "@/helpers/schemas";
-import { LoginFormType } from "@/types";
 import {
   Input,
   Button,
@@ -19,6 +14,12 @@ import {
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
 
+import { createAuthCookie } from "@/actions/auth.action";
+import { EyeSlashFilledIcon } from "@/components/icons/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@/components/icons/EyeFilledIcon";
+import { LoginSchema } from "@/helpers/schemas";
+import { LoginFormType } from "@/types";
+
 export const Login = () => {
   const router = useRouter();
   const initialValues: LoginFormType = {
@@ -29,7 +30,7 @@ export const Login = () => {
   const handleLogin = useCallback(
     async (values: LoginFormType) => {
       // `values` contains email & password. You can use provider to connect user
-
+      console.log(values);
       await createAuthCookie();
       router.replace("/");
     },
@@ -56,31 +57,24 @@ export const Login = () => {
           <CardBody>
             <div className="space-y-4">
               <Input
-                variant={"faded"}
+                isRequired
+                className="w-full"
+                errorMessage={errors.email}
+                isInvalid={!!errors.email}
                 label="Email"
                 type="email"
-                isRequired
                 value={values.email}
-                isInvalid={!!errors.email}
-                errorMessage={errors.email}
+                variant={"faded"}
                 onChange={handleChange("email")}
-                className="w-full"
               />
               <Input
-                variant="bordered"
-                label="Пароль"
-                type={isVisiblePassword ? "text" : "password"}
-                value={values.password}
-                isInvalid={!!errors.password}
-                errorMessage={errors.password}
-                onChange={handleChange("password")}
                 className="w-full"
                 endContent={
                   <button
+                    aria-label="toggle password visibility"
                     className="focus:outline-none"
                     type="button"
                     onClick={toggleVisibilityPassword}
-                    aria-label="toggle password visibility"
                   >
                     {isVisiblePassword ? (
                       <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
@@ -89,6 +83,13 @@ export const Login = () => {
                     )}
                   </button>
                 }
+                errorMessage={errors.password}
+                isInvalid={!!errors.password}
+                label="Пароль"
+                type={isVisiblePassword ? "text" : "password"}
+                value={values.password}
+                variant="bordered"
+                onChange={handleChange("password")}
               />
               <div className="flex items-center justify-between">
                 <Checkbox isSelected={rememberMe} onValueChange={setRememberMe}>
@@ -104,9 +105,9 @@ export const Login = () => {
 
           <CardFooter className="flex-col gap-4">
             <Button
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200"
               type="submit"
               onPress={() => handleSubmit()}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200"
             >
               Войти
             </Button>
