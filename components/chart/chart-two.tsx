@@ -10,7 +10,8 @@ type DataType = {
 };
 const generateData = (): DataType[] => {
   const dataLength = Math.floor(Math.random() * 6) + 10; // 10 to 15 items
-  return Array.from({ length: dataLength }, (_, i) => ({
+
+  return Array.from({ length: dataLength }, () => ({
     price: Math.floor(Math.random() * 900) + 100, // Random price between 100 and 999
     v1: Math.random() > 0.2 ? Math.floor(Math.random() * 900) + 100 : 0, // Some values can be zero
     v2: Math.random() > 0.2 ? Math.floor(Math.random() * 900) + 100 : 0, // Some values can be zero
@@ -53,7 +54,9 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
+
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -96,10 +99,11 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
     );
     const tooltipX = Math.min(Math.max(e.clientX, 50), chartWidth - 150); // Ensure tooltip is within chart bounds
     const tooltipY = Math.min(Math.max(e.clientY, 10), chartHeight - 100); // Ensure tooltip is within chart bounds
+
     setTooltip({ visible: true, content: content, x: tooltipX, y: tooltipY });
   };
 
-  const handleChartClick = (e: any) => {
+  const handleChartClick = () => {
     if (selectedBar !== null) {
       setTooltip({ visible: false, content: <></>, x: 0, y: 0 });
       setSelectedBar(null);
@@ -114,6 +118,7 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
         (sum, key) => sum + (_.get(item, key) / maxValue) * chartHeight,
         0,
       );
+
     return (
       <g key={`bar-${index}`}>
         {Object.keys(item)
@@ -125,30 +130,18 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
             const bar = (
               <rect
                 key={`${index}-${variantIndex}`}
-                x={index * (barWidth + barSpacing) + 50}
-                y={chartHeight - y - height}
-                width={barWidth}
-                height={height}
                 fill={`url(#gradient-${variantIndex})`}
+                height={height}
                 opacity={
                   selectedBar === null || selectedBar === index ? 1 : 0.5
                 }
                 rx={isFirst ? 4 : 0}
                 ry={isLast ? 4 : 0}
+                width={barWidth}
+                x={index * (barWidth + barSpacing) + 50}
+                y={chartHeight - y - height}
+                onClick={(e) => handleBarClick(item, index, e)}
                 onMouseEnter={(e) =>
-                  !selectedBar &&
-                  setTooltip({
-                    visible: true,
-                    content: (
-                      <span>
-                        {variants[variantIndex]}: {_.get(item, key)}
-                      </span>
-                    ),
-                    x: e.clientX + 5,
-                    y: e.clientY - 200,
-                  })
-                }
-                onMouseMove={(e) =>
                   !selectedBar &&
                   setTooltip({
                     visible: true,
@@ -165,22 +158,36 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
                   !selectedBar &&
                   setTooltip({ visible: false, content: <></>, x: 0, y: 0 })
                 }
-                onClick={(e) => handleBarClick(item, index, e)}
+                onMouseMove={(e) =>
+                  !selectedBar &&
+                  setTooltip({
+                    visible: true,
+                    content: (
+                      <span>
+                        {variants[variantIndex]}: {_.get(item, key)}
+                      </span>
+                    ),
+                    x: e.clientX + 5,
+                    y: e.clientY - 200,
+                  })
+                }
               />
             );
+
             y += height;
+
             return bar;
           })}
         <rect
-          x={index * (barWidth + barSpacing) + 50}
-          y={chartHeight - totalHeight}
-          width={barWidth}
-          height={totalHeight}
           fill="none"
-          stroke={darkMode ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)"}
-          strokeWidth="1"
+          height={totalHeight}
           rx={4}
           ry={4}
+          stroke={darkMode ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)"}
+          strokeWidth="1"
+          width={barWidth}
+          x={index * (barWidth + barSpacing) + 50}
+          y={chartHeight - totalHeight}
         />
       </g>
     );
@@ -195,15 +202,15 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
       className={`w-full max-w-4xl mx-auto p-4 overflow-x-auto relative ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}
       onClick={handleChartClick}
     >
-      <svg width={chartWidth} height={chartHeight + 50}>
+      <svg height={chartHeight + 50} width={chartWidth}>
         <defs>
           {colors.map((color, index) => (
             <linearGradient
               key={`gradient-${index}`}
               id={`gradient-${index}`}
               x1="0"
-              y1="0"
               x2="0"
+              y1="0"
               y2="1"
             >
               <stop offset="0%" stopColor={color[1]} />
@@ -214,11 +221,11 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
         {yAxisLabels.map((label, index) => (
           <text
             key={index}
+            fill={darkMode ? "white" : "black"}
+            fontSize="10"
+            textAnchor="end"
             x="30"
             y={chartHeight - (label / maxValue) * chartHeight}
-            textAnchor="end"
-            fontSize="10"
-            fill={darkMode ? "white" : "black"}
           >
             {label}
           </text>
@@ -227,28 +234,28 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
         {data.map((item, index) => (
           <text
             key={index}
+            fill={darkMode ? "white" : "black"}
+            fontSize={isMobile ? "10" : "12"}
+            textAnchor="middle"
             x={index * (barWidth + barSpacing) + 50 + barWidth / 2}
             y={chartHeight + 20}
-            textAnchor="middle"
-            fontSize={isMobile ? "10" : "12"}
-            fill={darkMode ? "white" : "black"}
           >
             {item.price} ₽
           </text>
         ))}
         <line
-          x1="50"
-          y1={chartHeight}
-          x2={chartWidth}
-          y2={chartHeight}
           stroke={darkMode ? "white" : "black"}
+          x1="50"
+          x2={chartWidth}
+          y1={chartHeight}
+          y2={chartHeight}
         />
         <line
-          x1="50"
-          y1="0"
-          x2="50"
-          y2={chartHeight}
           stroke={darkMode ? "white" : "black"}
+          x1="50"
+          x2="50"
+          y1="0"
+          y2={chartHeight}
         />
       </svg>
       <div className="flex flex-wrap justify-center mt-4">
@@ -259,7 +266,7 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
               style={{
                 background: `linear-gradient(to bottom, ${colors[index][1]}, ${colors[index][0]})`,
               }}
-            ></div>
+            />
             <span className="text-sm">{variant}</span>
           </div>
         ))}

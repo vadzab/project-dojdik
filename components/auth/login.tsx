@@ -27,15 +27,12 @@ export const Login = () => {
     password: "admin",
   };
 
-  const handleLogin = useCallback(
-    async (values: LoginFormType) => {
-      // `values` contains email & password. You can use provider to connect user
-      console.log(values);
-      await createAuthCookie();
-      router.replace("/");
-    },
-    [router],
-  );
+  const handleLogin = useCallback(async () => {
+    // `values` contains email & password. You can use provider to connect user
+
+    await createAuthCookie();
+    router.replace("/");
+  }, [router]);
 
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);

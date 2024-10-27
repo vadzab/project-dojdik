@@ -1,12 +1,14 @@
 "use client";
 
-import { ChartOne } from "@/components/chart/chart-one";
-import { ChartTwo } from "@/components/chart/chart-two";
 import { useTheme } from "next-themes";
 import { Tabs, Tab, Card, CardBody, CardHeader } from "@nextui-org/react";
 
+import { ChartOne } from "@/components/chart/chart-one";
+import { ChartTwo } from "@/components/chart/chart-two";
+
 export const Content = () => {
   const { theme } = useTheme();
+
   return (
     <div className="flex w-full flex-col">
       <Tabs aria-label="Options">
