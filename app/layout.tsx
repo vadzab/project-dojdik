@@ -1,11 +1,11 @@
-import "@/styles/globals.css";
+import "./globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
+import { fontNunito, fontSans, fontMono } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -36,7 +36,7 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen font-sans antialiased bg-gray-100 dark:bg-gray-900",
-          fontSans.variable,
+          fontNunito.className,
         )}
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>

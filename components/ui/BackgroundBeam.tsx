@@ -1,10 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
+import { cn } from "@/lib";
 
 export const BackgroundBeam = React.memo(
   ({ className }: { className?: string }) => {

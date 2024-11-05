@@ -37,19 +37,14 @@ const variants = [
   "Отходы",
 ];
 
-export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
+export const ChartLot = ({ darkMode }: { darkMode: boolean }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     content: ReactElement | null;
     x: number;
     y: number;
-  }>({
-    visible: false,
-    content: null,
-    x: 0,
-    y: 0,
-  });
+  }>({ visible: false, content: null, x: 0, y: 0 });
   const [selectedBar, setSelectedBar] = useState<number | null>(null);
 
   useEffect(() => {
@@ -62,7 +57,7 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
 
   const isMobile = windowWidth < 640;
   const chartWidth = isMobile ? windowWidth - 40 : 800;
-  const chartHeight = isMobile ? 300 : 400; // Adjusted height for better visibility
+  const chartHeight = isMobile ? 300 : 400;
   const barWidth = (chartWidth - 100) / (data.length * 1.2);
   const barSpacing = barWidth * 0.2;
 
@@ -202,6 +197,7 @@ export const ChartTwo = ({ darkMode }: { darkMode: boolean }) => {
       className={`w-full max-w-4xl mx-auto p-4 overflow-x-auto relative ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}
       onClick={handleChartClick}
     >
+      {windowWidth}
       <svg height={chartHeight + 50} width={chartWidth}>
         <defs>
           {colors.map((color, index) => (
